@@ -1,0 +1,33 @@
+-This is a list of all the Python symbols covererd so far and their function-
+
+# hash - this is used to write comments
++ plus - used for addition
+- minus - used for subtraction
+/ slash - used for division
+* asterisk - used for multiplication
+% percentage - used to return only the remainder of a division
+< less-than - test whether one thing is less than another
+> greater-than - test whether one thing is greater than another
+<= less-than-equal - test whether one thing is less than or equal to another
+>= greater-than-equal - test whether one thing is greater than or equal to another
+= equals - stores a value to a variable
+%s - string formatter - substitute a string within a string 
+%d - digit formatter - substitute a integer within a string
+%r - raw data formatter - substitute raw data within a string (should only be used for debugging)
+________							________________________________
+	|example: print "Its fleece was white as %s." % 'snow' |
+	-------------------------------------------------------
+""" - tripple quotes - print over multiple lines
+________                                               ________________________________
+        |example: print """" This is the first line   |
+	|	  that continues onto the second line |
+	|	  and third """			      |
+        -----------------------------------------------
+\n - new line - add a new line after an output
+\ - backslash - ignore special characters
+\t - tab - adds a horizontal tab
+\r carriage return
+
+
+
+****got to exercise 4
