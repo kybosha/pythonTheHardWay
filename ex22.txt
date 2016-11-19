@@ -11,6 +11,7 @@
 <= less-than-equal - test whether one thing is less than or equal to another
 >= greater-than-equal - test whether one thing is greater than or equal to another
 = equals - stores a value to a variable
+== double equals - compares whether a value holds that exact value
 %s - string formatter - substitute a string within a string 
 %d - digit formatter - substitute a integer within a string
 %r - raw data formatter - substitute raw data within a string (should only be used for debugging)

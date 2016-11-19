@@ -1,0 +1,1 @@
+True and False is always False, True or False is always True.
