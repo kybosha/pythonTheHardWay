@@ -7,3 +7,4 @@ The third animal is at 2 and is a peacock
 The fourth animal is at 3 and is a kanagroo
 The fifth animal is at 4 and is a whale
 The 6th animal is at 5 and is a platypus
+"""

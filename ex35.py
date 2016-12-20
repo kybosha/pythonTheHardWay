@@ -18,7 +18,7 @@ def gold_room():
 def bear_room():
 	print "There is a bear here."
 	print "The bear has a bunch of honey."
-	print "the fat bear is in front of another door."
+	print "The fat bear is in front of another door."
 	print "How are you going to move the bear?"
 	bear_moved = False
 
@@ -35,12 +35,12 @@ def bear_room():
 		elif choice == "open door" and bear_moved:
 			gold_room()
 		else:
-			print "I got no idead what that means."
+			print "I got no idea what that means."
 
 def cthulhu_room():
-	print "Here you the great evil Chtulhu."
+	print "Here you see the great evil Cthulhu."
 	print "He, it, whatever stares at you and you go insane."
-	print "Do you flee for your life or eat your head?"
+	print "Do you flee for your life, sit down and cry or eat your head?"
 
 	choice = raw_input("> ")
 
@@ -48,6 +48,8 @@ def cthulhu_room():
 		start()
 	elif "head" in choice:
 		dead("Well that was tasty!")
+	elif "cry" in choice:
+		friends()
 	else:
 		cthulhu_room()
 
@@ -59,7 +61,7 @@ def dead(why):
 def start():
 	print "You are in a dark room."
 	print "There is a door to your right and left."
-	print "WHich one do you take?"
+	print "Which one do you take?"
 
 	choice = raw_input("> ")
 
@@ -70,5 +72,16 @@ def start():
 	else:
 		dead("You stumble around the room until you starve.")
 
+def friends():
+	print "As the tears stream down your face the great Cthulhu takes pitty on you, he asks what is your name."
+	my_name = raw_input("You reply: ")
+	print "The great Cthuluhu attempts to utter your name aloud, he is so powerful though that the very mention of %s kills all the %ss in the world." % (my_name, my_name)
+	dead("Your head explodes without warning.")
+	
+
 start()
+
+
+
+
 
