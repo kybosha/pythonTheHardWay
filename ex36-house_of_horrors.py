@@ -1,6 +1,7 @@
 # House of Horrors Python Game - ai of the game is to escape the house of horros alive, the only method of escape is by driving away in the car parked out front whose keys you need to find. 
 # Follow the instructions and make your descions wisely.
 import random
+import os,sys
 
 print "Let's start with a few questions."
 
@@ -51,6 +52,12 @@ state = r_u_fat(bmi)
 
 #END OF BMI CALC
 
+# Safe code
+
+code = 1729
+
+def clear_screen():  #Simple function that clears the screen
+    os.system('cls' if os.name=='nt' else 'clear')
 
 # The opening sequence
 def start():
@@ -102,17 +109,6 @@ def enter_house():
 	Note reads that the car keys have been left in the safe in the basement, combination is 17XX - the last 2 digits are unintellgible.\n \"I need to find those last 2 digits he thought.\""""
 	downstairs_upstairs()
 
-def stairs():
-	print """stairs
-	"""
-
-def basement():
-	print """basement
-	"""
-
-def riddle_me_this():
-	print """
-	"""
 
 def trap():
 	print "Running towards gap, falls into hidden trap in floor breaking leg, decision - cry for help, sleep and wait for morning" 
@@ -211,10 +207,9 @@ def room2():
 	print """Enters room 2 - it's the bathroom, blah blah blah. There's a shower, a broken toilet bowl and not much else. The light is flickering, the shower is dripping heavily
 	turn the shower handle to stop the dripping? 
 """	
-	
 	shower_turn = raw_input("> ")
 	if "turn" in shower_turn:
-		while "Coat Hanger" in items:
+		if "Coat Hanger" in items:
 			print "...turns the handle, all hell breaks lose. Water gushing everywhere, uses the Coat Hanger to fix the leak. back to the landing."
 			items.remove('Coat Hanger')
 # REMOVE AFTER TESTING
@@ -225,10 +220,11 @@ def room2():
 			print shower_leak
 			upstairs_hallway()
 # REMOVE AFTER TESTING
-		print items
-		print " There was no way to fix this so he gets the hell out of there!"
+		else:
+			print items
+			print " There was no way to fix this so he gets the hell out of there!"
 		
-		upstairs_hallway()
+			upstairs_hallway()
 
 	else:
 		print "The dripping wasn't so bad after all blah blah blah, back to the landing"
@@ -285,7 +281,6 @@ def room3_lamp():
 		it's reflected and so it is himself and the room that is looking back at him. He notices a post-it notepad in the refelction of the window resting on the table now. Picking it up 
 		he can see there are imprints on it...it must be the pad that the note he found was written on. Holding it under the lamp he can see it clearly, scanning it quickly he finds the the full
 		code - 1792!"""
-		code = 1792
 		items.append(code)
 		print items
 		print "Back to the landing."
@@ -317,7 +312,7 @@ def upstairs_hallway():
 
 def downstairs():
 	print """On the ground floor he blah blah blah blah - looks around a little there are 4 rooms, more description about what he sees, he needs to pick a room - A, 
-	B, C, or D Or should he go upstairs?"""
+	B, C, or D Or should he go upstairs? Alternatively head back outside?"""
 	downstairs_room_choice = raw_input("> ")
 	if "a" in downstairs_room_choice:
 		print "He enters room A"
@@ -333,6 +328,8 @@ def downstairs():
 		roomd()
 	elif "up" in downstairs_room_choice:
 		upstairs_hallway()
+	elif "out" in downstairs_room_choice:
+		return back_outside()
 	else:
 		print "Crackerjack that aint no choice!"
 		downstairs()
@@ -341,6 +338,9 @@ def downstairs():
 
 
 def rooma():
+	while "Knife" in items:
+					print "The body of the demon lies in its own filth. You head back out to the landing."
+					return downstairs()
 	print """Enters Room A blah blah blah - it's the kitchen, looks around blah blah blah blah. Description of the kitchen and it's rustic demeanor. Get to the point 
 	where something enters and he has to reach for a knife but drops it down a crack and tries to reach for it in order to defend himself. The crack is slim, """
 	if state == "Overweight" or state == "Obese":
@@ -372,9 +372,9 @@ def rooma():
 		battle()
 
 def battle():
-	while "Knife" in items:
-					print "The body of the demon lies in its own filth. You head back out to the landing."
-					return downstairs()
+	#while "Knife" in items:
+	#				print "The body of the demon lies in its own filth. You head back out to the landing."
+	#				return downstairs()
 	print "The demon lunges at you, lunging forward with the knife you aim for it's chest"
 	your_num = random.randrange(1, 10)
 	# for testing purposes
@@ -428,17 +428,164 @@ def roomc():
 		downstairs()
 
 
+def roomd():
+	print """Approaches 'roomd' blah blah blah - it's the basement! You try the door handle, it's locked. There is a grate at the base of the door and you notice 
+	something glistening in it. It's a set of keys."""
+	if "Coat Hanger" in items:
+		print """You remember you have the coat hanger and bending it out you turn it into a hook and pull the keys up out of the grate. Then you open the basement door
+		and make your desent."""
+		items.append("Basement Keys")
+		global basement_door_unlocked
+		basement_door_unlocked = True
+		basement()
+	else:
+		print "You can't reach the keys, you need to go and find something that can help you get them out. You turn back to the downstairs hall. \n The strange voice returns urging you to go back upstairs."
+		downstairs()
 
-	""" INVESTIGATE!!!! Strange transition to dead if shower_leak is True - 
+
+def basement():
+	print """Basement scene - blah blah blah, you see the safe in a corner, do you go straight to it or explore the basement futher?"""
+	basement_choice = raw_input("> ")
+	if "explore" in basement_choice:
+		explore_basement()
+	elif "safe" in basement_choice:
+		print "You approach the safe, reaching it you dust off the dial and remember a code needs to be entered."
+		if code in items:
+			print "You have the code! Pull out piece of paper, code is %d" % code
+			the_safe()
+		else:
+			print "You never found the last 2 digits, I guess you could take a guess? Or go back and look for the other digits?"
+			guess_or_look = raw_input("> ")
+			if "guess" in guess_or_look:
+				the_safe()
+			else:
+				print "you head back to the first floor to look for the rest of the code.\n The strange voice returns urging you to go back upstairs."
+				downstairs()
+
+def explore_basement():
+	print """Wondering around the basement blah blah blah, you knock over a pile of boxes - a creepy old man emerges from the shadows. You shite yourslef, or atleast it feels like you did. The old man grins a
+	torid smile and then tells you he has a riddle for you. If you answer correctly he will gift you something, if you answer incorrectly something terrible will happen. One word is requied for te answer.\n"""
+	
+	print """
+	A flame bereft,
+		of control.
+	A bottomless depth,
+		without soul.
+	A hellish pit of,
+		sadistic comedy.
+	An inaugural piece of,
+		divine trinity.\n
+	"""
+	print "With a death like expression he demands an answer."
+	riddle_answer = raw_input("> ")
+	if "inferno" in riddle_answer:
+		print "The old man's smile thins and with a reluctant nod he congratulates you on your correct answer. blah blah blah he allows you to continue on your way and head back to the safe."
+		return the_safe()
+	else:
+		print "The old man's smile broadens and he lets out an evil cackle, 'times up he screams!'\n"	
+
+		print """
+		                          ...----....
+	                         ..-:"''         ''"-..
+	                      .-'                      '-.
+	                    .'              .     .       '.
+	                  .'   .          .    .      .    .''.
+	                .'  .    .       .   .   .     .   . ..:.
+	              .' .   . .  .       .   .   ..  .   . ....::.
+	             ..   .   .      .  .    .     .  ..  . ....:IA.
+	            .:  .   .    .    .  .  .    .. .  .. .. ....:IA.
+	           .: .   .   ..   .    .     . . .. . ... ....:.:VHA.
+	           '..  .  .. .   .       .  . .. . .. . .....:.::IHHB.
+	          .:. .  . .  . .   .  .  . . . ...:.:... .......:HIHMM.
+	         .:.... .   . ."::"'.. .   .  . .:.:.:II;,. .. ..:IHIMMA
+	         ':.:..  ..::IHHHHHI::. . .  ...:.::::.,,,. . ....VIMMHM
+	        .:::I. .AHHHHHHHHHHAI::. .:...,:IIHHHHHHMMMHHL:. . VMMMM
+	       .:.:V.:IVHHHHHHHMHMHHH::..:" .:HIHHHHHHHHHHHHHMHHA. .VMMM.
+	       :..V.:IVHHHHHMMHHHHHHHB... . .:VPHHMHHHMMHHHHHHHHHAI.:VMMI
+	       ::V..:VIHHHHHHMMMHHHHHH. .   .I":IIMHHMMHHHHHHHHHHHAPI:WMM
+	       ::". .:.HHHHHHHHMMHHHHHI.  . .:..I:MHMMHHHHHHHHHMHV:':H:WM
+	       :: . :.::IIHHHHHHMMHHHHV  .ABA.:.:IMHMHMMMHMHHHHV:'. .IHWW
+	       '.  ..:..:.:IHHHHHMMHV" .AVMHMA.:.'VHMMMMHHHHHV:' .  :IHWV
+	        :.  .:...:".:.:TPP"   .AVMMHMMA.:. "VMMHHHP.:... .. :IVAI
+	       .:.   '... .:"'   .   ..HMMMHMMMA::. ."VHHI:::....  .:IHW'
+	       ...  .  . ..:IIPPIH: ..HMMMI.MMMV:I:.  .:ILLH:.. ...:I:IM
+	     : .   .'"' .:.V". .. .  :HMMM:IMMMI::I. ..:HHIIPPHI::'.P:HM.
+	     :.  .  .  .. ..:.. .    :AMMM IMMMM..:...:IV":T::I::.".:IHIMA
+	     'V:.. .. . .. .  .  .   'VMMV..VMMV :....:V:.:..:....::IHHHMH
+	       "IHH:.II:.. .:. .  . . . " :HB"" . . ..PI:.::.:::..:IHHMMV"
+	        :IP""HHII:.  .  .    . . .'V:. . . ..:IH:.:.::IHIHHMMMMM"
+	        :V:. VIMA:I..  .     .  . .. . .  .:.I:I:..:IHHHHMMHHMMM
+	        :"VI:.VWMA::. .:      .   .. .:. ..:.I::.:IVHHHMMMHMMMMI
+	        :."VIIHHMMA:.  .   .   .:  .:.. . .:.II:I:AMMMMMMHMMMMMI
+	        :..VIHIHMMMI...::.,:.,:!"I:!"I!"I!"V:AI:VAMMMMMMHMMMMMM'
+	        ':.:HIHIMHHA:"!!"I.:AXXXVVXXXXXXXA:."HPHIMMMMHHMHMMMMMV
+	          V:H:I:MA:W'I :AXXXIXII:IIIISSSSSSXXA.I.VMMMHMHMMMMMM
+	            'I::IVA ASSSSXSSSSBBSBMBSSSSSSBBMMMBS.VVMMHIMM'"'
+	             I:: VPAIMSSSSSSSSSBSSSMMBSSSBBMMMMXXI:MMHIMMI
+	            .I::. "H:XIIXBBMMMMMMMMMMMMMMMMMBXIXXMMPHIIMM'
+	            :::I.  ':XSSXXIIIIXSSBMBSSXXXIIIXXSMMAMI:.IMM
+	            :::I:.  .VSSSSSISISISSSBII:ISSSSBMMB:MI:..:MM
+	            ::.I:.  ':"SSSSSSSISISSXIIXSSSSBMMB:AHI:..MMM.
+	            ::.I:. . ..:"BBSSSSSSSSSSSSBBBMMMB:AHHI::.HMMI
+	            :..::.  . ..::":BBBBBSSBBBMMMB:MMMMHHII::IHHMI
+	            ':.I:... ....:IHHHHHMMMMMMMMMMMMMMMHHIIIIHMMV"
+	              "V:. ..:...:.IHHHMMMMMMMMMMMMMMMMHHHMHHMHP'
+	               ':. .:::.:.::III::IHHHHMMMMMHMHMMHHHHM"
+	                 "::....::.:::..:..::IIIIIHHHHMMMHHMV"
+	                   "::.::.. .. .  ...:::IIHHMMMMHMV"
+	                     "V::... . .I::IHHMMV"'
+	                       '"VHVHHHAHHHHMMV:"'
+
+	                       \n
+		"""
+		dead("The old man sucks out your very soul.")
 
 
-"""
+
+def the_safe():
+	print "You approach the safe and notice it's a dial safe, you start to enter the code."
+	if code in items:
+		print "You have the code, it's %d. Enter it in." % code
+		code_input = raw_input("> ")
+		if code_input == 1729:
+			print "The safe clicks open, you've got the keys! You rush out of the basement back up to the downstairs area."
+			items.append('keys')
+			downstairs()
+		else:
+			return wrong_code()
+	else:
+		print "you enter 1 and 7, but guess the last 2 digits."
+		code_guess = raw_input("> ")
+		if '29' in code_guess:
+			print "The safe clicks open, you've got the keys! You rush out of the basement back up to the downstairs area."
+			items.append('Car Keys')
+			downstairs()
+		else:
+			print "The safe explodes and you are blown to pieces."
+			return dead("Your body parts scatter the basement floor.")
 
 	
-"""
 
-	def car():
-"""	
+def back_outside():
+	if 'Car Keys' in items:
+		print "You have the car keys, let's go to the car and get out of here!"
+		return car()
+	else:
+		print "You hear that voice again - you need the car keys, second floor!\n"
+		print "Will you go back into the house or continue to the car?"
+		outside_decision = raw_input("> ")
+		if "house" in outside_decision:
+			return downstairs()
+		elif "car" in outside_decision:
+			return run()
+		else:
+			print "That aint not choice"
+			back_outside()
+
+def car():
+	print "Reaching the car and open it up with the keys. Start the engine and get drive out through the gap in the trees.\n"
+	print """Blah Blah Blah reach the edge of the wood where what appears to be a dusty track emerges in sight, just as you reach it a blinding light fills looms forth
+	blinding you. BLAH BLAH BLAH - wake up and all is revealed."""
 
 
 start()
