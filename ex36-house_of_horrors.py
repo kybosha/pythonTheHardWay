@@ -65,15 +65,16 @@ def clear_screen():  #Simple function that clears the screen
 
 # The opening sequence
 def start():
-	for i in start_text.split():
+	print "THIS IS A TEST!!!"
+	"""for i in start_text.split():
 		sys.stdout.write("{} ".format(i))
 		sys.stdout.flush()
 
 		seconds = ".6" + str(randrange(1,5,2))
 		seconds = float(seconds)
-		time.sleep(seconds)
+		time.sleep(seconds)"""
 
-	#print start_text
+	print start_text.split()
 
 	print "Wake up!\n" * 5
 	

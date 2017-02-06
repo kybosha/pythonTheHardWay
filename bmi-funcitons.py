@@ -27,6 +27,4 @@ def r_u_fat(e):
 
 state = r_u_fat(bmi)
 
-
-
 print "Your bmi is %d, this means that you are %r" % (bmi, state)
